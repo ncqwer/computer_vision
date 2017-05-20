@@ -14,4 +14,10 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 find_package(Ceres REQUIRED)
 include_directories(${CERES_INCLUDE_DIRS})
 
+#include Eigen
+include_directories(/usr/local/include/eigen3)
+
+
+# add_subdirectory(src)
+add_subdirectory(sfm sfm)
 add_subdirectory(test test)
