@@ -65,4 +65,25 @@ void SparseSolution::run(const std::string& grand_file)
 	// getInitialValue(feature_pts,good_feature_pts_index,_camera,_vecs,_grand);
 	bundle(feature_pts,good_feature_pts_index,_camera,_vecs,_grand);
 	// write(feature_pts,good_feature_pts_index,_grand,_img_filenames,grand_file);
+	std::ofstream f_dst(grand_file);
+	for(size_t i = 0 ; i < gcp_size; i++)
+	{
+		auto ret = good_feature_pts_index[i]->begin();
+		size_t img_index = ret->first;
+		auto keypoint = feature_pts[img_index][ret->second];
+		auto img_x = keypoint.pt.x;
+		auto img_y = keypoint.pt.y;
+		cv::Mat img = cv::imread(_img_filenames[img_index]);
+		auto color = img.at<cv::Vec3b>(img_y,img_x);
+
+		double X =*(_grand + i*3 + 0);
+		double Y =*(_grand + i*3 + 1);
+		double Z =*(_grand + i*3 + 2);
+		f_dst<<std::string(" X: ")<<X
+			 <<std::string(" Y: ")<<Y
+			 <<std::string(" Z: ")<<Z
+			 <<std::string(" B: ")<<color[0]
+			 <<std::string(" G: ")<<color[1]
+			 <<std::string(" R: ")<<color[2]<<std::endl;
+	}
 }

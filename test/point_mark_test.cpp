@@ -251,6 +251,7 @@ using namespace cv;
 int main(int argc, char const *argv[])
 {
 	Mat img = imread("Buddha_001.JPG",0);
+	Mat img_show = imread("Buddha_001.JPG");
 
 	std::vector<ControlPoint> cpts;
 	string message = "control point detect begin";
@@ -258,10 +259,11 @@ int main(int argc, char const *argv[])
 	for(auto &cpt : cpts)
 	{
 		std::string str = std::to_string(cpt.cpt_index);
-		cv::putText(img,str,cv::Point(cpt.circle.x,cpt.circle.y),cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,255,0));
+		cv::putText(img_show,str,cv::Point(cpt.circle.x,cpt.circle.y),cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,255,0));
 	}
 	namedWindow("dst",WINDOW_NORMAL);
-	imshow("dst",img);
+	imshow("dst",img_show);
+	imwrite("marked.jpg",img_show);
 	waitKey();
 	return 0;
 }
